@@ -24,7 +24,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(httpContext, ex);
+            await HandleExceptionAsync(httpContext, ex);        
         }
     }
 
@@ -39,6 +39,15 @@ public class ExceptionMiddleware
             {
                 StatusCode = context.Response.StatusCode,
                 Message = duplicationException.Message
+            }.ToString());
+        }
+        else
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            await context.Response.WriteAsync(new ErrorDetails()
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = exception.Message
             }.ToString());
         }
     }

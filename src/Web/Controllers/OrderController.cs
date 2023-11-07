@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,8 @@ public class OrderController : Controller
 
     [HttpGet]
     public async Task<IActionResult> MyOrders()
-    {
+    {   
+        Guard.Against.Null(User?.Identity?.Name, nameof(User.Identity.Name));
         var viewModel = await _mediator.Send(new GetMyOrders(User.Identity.Name));
 
         return View(viewModel);
@@ -30,6 +31,7 @@ public class OrderController : Controller
     [HttpGet("{orderId}")]
     public async Task<IActionResult> Detail(int orderId)
     {
+        Guard.Against.Null(User?.Identity?.Name, nameof(User.Identity.Name));
         var viewModel = await _mediator.Send(new GetOrderDetails(User.Identity.Name, orderId));
 
         if (viewModel == null)

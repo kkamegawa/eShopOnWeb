@@ -10,7 +10,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         var navigation = builder.Metadata.FindNavigation(nameof(Order.OrderItems));
 
-        navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+        navigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Property(b => b.BuyerId)
             .IsRequired()
@@ -39,5 +39,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                 .HasMaxLength(100)
                 .IsRequired();
         });
+
+        builder.Navigation(x => x.ShipToAddress).IsRequired();
     }
 }

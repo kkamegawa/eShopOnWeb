@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.eShopWeb.ApplicationCore.Entities;
+﻿using Microsoft.eShopWeb.ApplicationCore.Entities;
 using Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Specifications;
@@ -31,7 +28,7 @@ public class BasketViewModelService : IBasketViewModelService
     public async Task<BasketViewModel> GetOrCreateBasketForUser(string userName)
     {
         var basketSpec = new BasketWithItemsSpecification(userName);
-        var basket = (await _basketRepository.GetBySpecAsync(basketSpec));
+        var basket = (await _basketRepository.FirstOrDefaultAsync(basketSpec));
 
         if (basket == null)
         {
